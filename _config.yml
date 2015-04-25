@@ -1,0 +1,12 @@
+# Site settings
+title: bluss' rust bursts
+email: 
+description: ""
+baseurl: ""
+url: "https://github.com/bluss/"
+#twitter_username: jekyllrb
+#github_username:  jekyll
+
+# Build settings
+markdown: kramdown
+permalink: pretty
