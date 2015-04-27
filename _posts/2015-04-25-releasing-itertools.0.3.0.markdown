@@ -34,7 +34,10 @@ makes all the documentation examples easier to read.
 
 The **izip!()** macro was revived: it now uses `IntoIterator` as well,
 which was harder to do with `Zip::new(...)`. (I prefer to only implement
-macros for what can't be solved in natural Rust.)
+macros for what can't be solved in natural Rust.) [^1]
+
+[^1]: It turns out it wasn't so hard, and itertools 0.3.1 uses IntoIterator in
+      `Zip::new` too.
 
 Version 0.3.0 finally removed **deprecated items**, which have the following
 replacements:
