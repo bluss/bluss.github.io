@@ -1,0 +1,143 @@
+---
+layout: post
+title:  "Stuff the Identity Function Does"
+date:   2015-10-11 14:00:00
+categories: rust fun
+---
+
+gist: https://play.rust-lang.org/?gist=537b61034840879b0abd&version=stable
+
+The identity function looks like this in Rust:
+
+{% highlight rust %}
+/// The identity function.
+fn id<T>(x: T) -> T { x }
+{% endhighlight %}
+
+{% highlight rust %}
+// id returns the same value that is passed in
+assert_eq!(1, id(1));
+{% endhighlight %}
+
+
+Beyond the obvious, it does some curious and fun things!
+
+
+## `id` Type Hints or Coerces
+
+{% highlight rust %}
+let string = "hi".to_string();
+// Coerce a &String to &str, with id:
+match id::<&str>(&string) {
+    "hi" => {}
+    _ => panic!("at the disco"),
+}
+{% endhighlight %}
+
+## `id` Forces References To Move
+
+Let's say we have a simple recursive datastructure:
+{% highlight rust %}
+struct List {
+    next: Option<Box<List>>,
+}
+{% endhighlight %}
+
+And we want to walk it, with a mutable reference, through a loop.
+{% highlight rust %}
+impl List {
+    fn walk_the_list(&mut self) {
+        let mut current = self;
+        loop {
+            match current.next {
+                None => return,
+                Some(ref mut inner) => current = inner,
+            }
+        }
+    }
+}
+{% endhighlight %}
+
+Looks good? Rustc disagrees!
+
+<pre>
+error: cannot borrow `current.next.0` as mutable more than once at a time [E0499]
+          Some(ref mut inner) => current = inner,
+               ^~~~~~~~~~~~~
+</pre>
+
+`id` tells a mutable reference to *move* instead of reborrow! This way it compiles:
+
+{% highlight rust %}
+impl List {
+    fn walk_the_list(&mut self) {
+        let mut current = self;
+        loop {
+            match id(current).next {
+                None => return,
+                Some(ref mut inner) => current = inner,
+            }
+        }
+    }
+}
+{% endhighlight %}
+
+
+## Id Makes Immutable Locals Mutable
+
+Id returns just the same thing as you pass in. Except it's now an rvalue, and
+implicitly mutable!
+
+{% highlight rust %}
+impl List {
+    fn consume_the_list(self) {
+        // error: cannot borrow immutable local variable `self` as mutable
+        // self.walk_the_list();
+        
+        id(self).walk_the_list();
+    }
+}
+{% endhighlight %}
+
+This is no violation of rust philosophy. `mut` is simple and pragmatic, and
+mutability radiates from the owner. If your value is now a temporary, it's
+not owned by an immutable binding anymore (or any other variable binding).
+
+
+## Rust has Dedicated Syntax for This!
+
+If you thought that was cryptic, here's one better. The secret syntax is just
+`{` and its companion `}`, and it allows you to manipulate move semantics just
+the same way `id` does:
+
+{% highlight rust %}
+impl List {
+    fn walk_the_list_with_braces(&mut self) {
+        let mut current = self;
+        loop {
+            match {current}.next {
+                None => return,
+                Some(ref mut inner) => current = inner,
+            }
+        }
+    }
+    
+    fn consume_the_list_with_braces(self) {
+        {self}.walk_the_list_with_braces();
+    }
+}
+{% endhighlight %}
+
+
+## Force a Move Today
+
+If you actually use this, I think `moving` is actually a pretty good name
+(`move` is taken, it's a keyword). Save the `{}` for obfuscation contests.
+
+{% highlight rust %}
+/// The identity function.
+///
+/// Also forces the argument to move.
+fn moving<T>(x: T) -> T { x }
+{% endhighlight %}
+
