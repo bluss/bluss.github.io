@@ -70,7 +70,7 @@ error: cannot borrow `current.next.0` as mutable more than once at a time [E0499
 
 [gisterr]: https://play.rust-lang.org/?gist=613e13fd515bfca647ca&version=stable
 
-It turns out rust's mutable references do something interesting, and most of
+It turns out Rust's mutable references do something interesting, and most of
 the time it's very useful: when they are passed, they reborrow the local variable
 rather than move it. The explicit equivalent of the reborrow would be `&mut *current`.
 
@@ -110,7 +110,7 @@ impl List {
 }
 {% endhighlight %}
 
-This is no violation of rust philosophy. `mut` is simple and pragmatic, and
+This is no violation of Rust philosophy. `mut` is simple and pragmatic, and
 mutability radiates from the owner. If your value is now a temporary, it's
 not owned by an immutable binding anymore (or any other variable binding).
 
