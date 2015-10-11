@@ -93,7 +93,7 @@ impl List {
 }
 {% endhighlight %}
 
-This is a point where Rust could improve by learning infer whether to
+This is a point where Rust could improve by learning to infer whether to
 reborrow or move mutable references. Until then, we have `id`.
 
 
