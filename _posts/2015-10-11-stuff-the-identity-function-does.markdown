@@ -99,8 +99,8 @@ reborrow or move mutable references. Until then, we have `id`.
 
 ## id Makes Immutable Locals Mutable
 
-Id returns just the same thing as you pass in. Except it's now an rvalue, and
-implicitly mutable!
+`id` returns just the same thing as you pass in. Except it's now an rvalue, and
+implicitly mutable.
 
 {% highlight rust %}
 impl List {
