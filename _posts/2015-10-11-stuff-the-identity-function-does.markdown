@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Stuff the Identity Function Does"
+title:  "Stuff the Identity Function Does in Rust"
 date:   2015-10-11 14:00:00
 categories: rust fun
 ---
