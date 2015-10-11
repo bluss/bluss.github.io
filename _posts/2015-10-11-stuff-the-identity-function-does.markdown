@@ -60,7 +60,7 @@ impl List {
 }
 {% endhighlight %}
 
-Looks good? Rustc disagrees [(compile on playpen)][gisterr]!
+Looks good? Rustc disagrees! [(compile on playpen)][gisterr]
 
 <pre>
 error: cannot borrow `current.next.0` as mutable more than once at a time [E0499]
