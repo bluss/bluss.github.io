@@ -36,7 +36,7 @@ match id::<&str>(&string) {
 }
 {% endhighlight %}
 
-No magic, you can just specify with an explicit type *which* identity
+No magic, it's just that you can specify with an explicit type *which* identity
 function you are calling. If the expression can coerce to that type, then it compiles.
 
 ## id Forces References To Move
@@ -94,7 +94,7 @@ impl List {
 {% endhighlight %}
 
 This is a point where Rust could improve by learning infer whether to
-reborrow or move the mutable references. Until then, we have `id`.
+reborrow or move mutable references. Until then, we have `id`.
 
 
 ## id Makes Immutable Locals Mutable
