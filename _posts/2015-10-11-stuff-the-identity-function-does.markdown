@@ -36,6 +36,9 @@ match id::<&str>(&string) {
 }
 {% endhighlight %}
 
+No magic, you can just specify with an explicit type *which* identity
+function you are calling. If the expression can coerce to that type, then it compiles.
+
 ## id Forces References To Move
 
 Let's say we have a simple recursive datastructure:
