@@ -5,8 +5,6 @@ date:   2015-10-11 14:00:00
 categories: rust fun
 ---
 
-gist: https://play.rust-lang.org/?gist=537b61034840879b0abd&version=stable
-
 The identity function looks like this in Rust:
 
 {% highlight rust %}
@@ -21,6 +19,10 @@ assert_eq!(1, id(1));
 
 
 Beyond the obvious, it does some curious and fun things!
+
+You can test [this blog post's code in the Rust Playground][gist].
+
+[gist]: https://play.rust-lang.org/?gist=724e8c931a8e7515ef31&version=stable
 
 
 ## `id` Type Hints or Coerces
