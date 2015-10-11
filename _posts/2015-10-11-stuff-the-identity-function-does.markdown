@@ -113,10 +113,10 @@ impl List {
 }
 {% endhighlight %}
 
-This is no violation of Rust philosophy. `mut` is simple and pragmatic, and
-mutability radiates from the owner. If your value is now a temporary, it's
-not owned by an immutable binding anymore (or any other variable binding).
-
+This is no violation of Rust philosophy. Using `mut` on locals is simple and
+pragmatic, and mutability radiates from the owner. If your value is now
+a temporary, it's not owned by an immutable binding anymore (or any other
+variable binding).
 
 ## Rust has Dedicated Syntax for This!
 
