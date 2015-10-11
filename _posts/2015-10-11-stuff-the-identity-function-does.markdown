@@ -12,8 +12,8 @@ The identity function looks like this in Rust:
 fn id<T>(x: T) -> T { x }
 {% endhighlight %}
 
+`id` returns the same value that is passed in:
 {% highlight rust %}
-// id returns the same value that is passed in
 assert_eq!(1, id(1));
 {% endhighlight %}
 
@@ -25,7 +25,7 @@ You can test [this blog post's code in the Rust Playground][gist].
 [gist]: https://play.rust-lang.org/?gist=724e8c931a8e7515ef31&version=stable
 
 
-## `id` Type Hints or Coerces
+## id Type Hints or Coerces
 
 {% highlight rust %}
 let string = "hi".to_string();
@@ -36,7 +36,7 @@ match id::<&str>(&string) {
 }
 {% endhighlight %}
 
-## `id` Forces References To Move
+## id Forces References To Move
 
 Let's say we have a simple recursive datastructure:
 {% highlight rust %}
@@ -60,13 +60,19 @@ impl List {
 }
 {% endhighlight %}
 
-Looks good? Rustc disagrees!
+Looks good? Rustc disagrees [(compile on playpen)][gisterr]!
 
 <pre>
 error: cannot borrow `current.next.0` as mutable more than once at a time [E0499]
           Some(ref mut inner) => current = inner,
                ^~~~~~~~~~~~~
 </pre>
+
+[gisterr]: https://play.rust-lang.org/?gist=613e13fd515bfca647ca&version=stable
+
+It turns out rust's mutable references do something interesting, and most of
+the time it's very useful: when they are passed, they reborrow the local variable
+rather than move it. The explicit equivalent of the reborrow would be `&mut *current`.
 
 `id` tells a mutable reference to *move* instead of reborrow! This way it compiles:
 
@@ -84,8 +90,11 @@ impl List {
 }
 {% endhighlight %}
 
+This is a point where Rust could improve by learning infer whether to
+reborrow or move the mutable references. Until then, we have `id`.
 
-## Id Makes Immutable Locals Mutable
+
+## id Makes Immutable Locals Mutable
 
 Id returns just the same thing as you pass in. Except it's now an rvalue, and
 implicitly mutable!
