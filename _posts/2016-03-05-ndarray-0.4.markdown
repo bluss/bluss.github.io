@@ -54,7 +54,7 @@ on integration with rayon!)
 
 Version 0.4 adds the trait [`NdFloat`][3], defined for only `f32` and `f64`,
 which makes it easy to include the extra trait bounds needed for some 
-operations. `Any` is used for old school type specific specialization for
+operations. `Any` is used for old school type-based specialization for
 linear algebra (only `.dot()` implemented so far), and [`ScalarOperand`][4] is
 needed for technical reasons to implement both array + array and
 array + scalar at the same time.
