@@ -40,29 +40,30 @@ println!("first={:?}, second={:?}", first.shape(), second.shape());
 // Output: first=[3, 5, 2], second=[3, 5, 3]
 {% endhighlight %}
 
-`.split_at()` uses the new newtype `Axis` for the first argument, which all
+`.split_at()` uses the new newtype [`Axis`][ax] for the first argument, which all
 axis arguments now use in version 0.4. The split views borrow from the original
-array, but can even be sent to separate threads. Naturally we have one eye
-on integration with rayon.
+array, but can even be sent to separate threads. (Naturally we have an eye
+on integration with rayon!)
 
 <img alt="split-at" src="/split_at.svg" width="412px" height="340px">
 
+[ax]: https://bluss.github.io/rust-ndarray/master/ndarray/struct.Axis.html
 
 ## Easier to be Generic
 
 Version 0.4 adds the trait [`NdFloat`][3], defined for only `f32` and `f64`,
 which makes it easy to include the extra trait bounds needed for some 
 operations. `Any` is used for old school type specific specialization for
-linear algebra (only .dot() implemented so far), and [`ScalarOperand`][4] is
-needed for technical reasons to implement both `Array + Array` and
-`Array + scalar` at the same time.
+linear algebra (only `.dot()` implemented so far), and [`ScalarOperand`][4] is
+needed for technical reasons to implement both "array + array" and
+"array + scalar" at the same time.
 
 [3]: http://bluss.github.io/rust-ndarray/master/ndarray/trait.NdFloat.html
 [4]: http://bluss.github.io/rust-ndarray/master/ndarray/trait.ScalarOperand.html
 
-`ArrayView` and `ArrayViewMut` now implement `From`, so that it's easy
-to convert from slices and references to arrays to array views. These
-conversion implementations are wrapped up into an even easier form
+`ArrayView` and `ArrayViewMut` now implement `From`, so that you can
+convert from slices and references into array views. These
+conversion implementations are wrapped up into an even simpler form
 in trait [`AsArray`][5].
 
 [5]: http://bluss.github.io/rust-ndarray/master/ndarray/trait.AsArray.html
@@ -70,7 +71,7 @@ in trait [`AsArray`][5].
 {% highlight rust %}
 use ndarray::{AsArray, NdFloat};
 
-/// Return the scalar sum of a slice or an array of floats
+/// Return the element sum of a slice or an array of floats
 pub fn sum<'a, F: NdFloat, V: AsArray<'a, F>>(data: V) -> F {
     data.into().scalar_sum()
 }
@@ -78,7 +79,8 @@ pub fn sum<'a, F: NdFloat, V: AsArray<'a, F>>(data: V) -> F {
 
 ndarray's `.scalar_sum()` uses a manually unrolled loop so that it
 can be autovectorized by the compiler, despite the float accuracy
-rules that prevent a simple summation loop to be optimized that way.
+rules that prevent a simple summation loop to be optimized that way,
+so this function may be a drop in win.
 
 ## Change Log
 
@@ -90,7 +92,7 @@ and some deprecations. See the [**full change log**][2] for more information!
 ## Future
 
 Furious development will hopefully continue. Rust 1.8 is around the corner,
-and with it, the assignment operators (`+=`, `*=` etc) are finally stable.
-We will deprecate our old equivalent methods (current `iadd`, `imul` etc) at
+and with it the assignment operators (`+=`, `*=` etc) are finally stable.
+We will deprecate our old equivalent methods (`iadd`, `imul` etc) at
 that point.
 
