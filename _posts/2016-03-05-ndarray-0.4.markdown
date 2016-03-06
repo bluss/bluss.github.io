@@ -11,10 +11,11 @@ has many improvements.
 
 One of the most fundamental additions, contributed by @vbarrielle, is
 better support for chunking and splitting array views. `ArrayView` and
-`ArrayViewMut` learned the new method `.split_at(Axis, Ix)` that
+`ArrayViewMut` learned the new method [`.split_at(Axis, Ix)`][sp] that
 splits the view, modelled on `.split_at(_mut)` for slices.
 
 [1]: https://github.com/bluss/rust-ndarray
+[sp]: https://bluss.github.io/rust-ndarray/master/ndarray/struct.ArrayBase.html#method.split_at
 
 Creating a 3 × 5 × 5 array with ndarray looks like this:
 
