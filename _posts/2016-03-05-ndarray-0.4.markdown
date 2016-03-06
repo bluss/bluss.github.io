@@ -25,9 +25,11 @@ use ndarray::OwnedArray;
 let mut a = OwnedArray::range(0., 3. * 5. * 5., 1.).into_shape((3, 5, 5)).unwrap();
 {% endhighlight %}
 
-This uses the new constructor `range` (contributed by @palango),
+This uses the new constructor [`range`][r] (contributed by @palango),
 and calls `.unwrap()` which will panic if the array does not have the
 correct number of elements for the new shape.
+
+[r]: https://bluss.github.io/rust-ndarray/master/ndarray/struct.ArrayBase.html#method.range
 
 Splitting the array along an axis looks like this:
 
