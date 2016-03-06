@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Releasing ndarray 0.4"
+title:  "ndarray 0.4 is released!"
 date:   2016-03-06 02:00:00
 categories: rust
 ---
