@@ -45,7 +45,7 @@ println!("first={:?}, second={:?}", first.shape(), second.shape());
 
 `.split_at()` uses the new newtype [`Axis`][ax] for the first argument, which all
 axis arguments now use in version 0.4. The split views borrow from the original
-array, but can even be sent to separate threads. (Naturally we have an eye
+array, but can be sent to separate threads. (Naturally we have an eye
 on integration with rayon!)
 
 <img alt="split-at" src="/split_at.svg" width="412px" height="340px">
