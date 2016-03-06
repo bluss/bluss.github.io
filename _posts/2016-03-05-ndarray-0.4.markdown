@@ -11,7 +11,7 @@ has many improvements.
 
 One of the most fundamental additions, contributed by @vbarrielle, is
 better support for chunking and splitting array views. `ArrayView` and
-`ArrayViewMut` learn the new method `.split_at(Axis, Ix)` that
+`ArrayViewMut` learned the new method `.split_at(Axis, Ix)` that
 splits the view, modelled on `.split_at(_mut)` for slices.
 
 [1]: https://github.com/bluss/rust-ndarray
@@ -27,8 +27,6 @@ let mut a = OwnedArray::range(0., 3. * 5. * 5., 1.).into_shape((3, 5, 5)).unwrap
 This uses the new constructor `range` (contributed by @palango),
 and calls `.unwrap()` which will panic if the array does not have the
 correct number of elements for the new shape.
-
-<img alt="split-at" src="/split_at.svg" width="412px" height="340px">
 
 Splitting the array along an axis looks like this:
 
@@ -46,6 +44,8 @@ println!("first={:?}, second={:?}", first.shape(), second.shape());
 axis arguments now use in version 0.4. The split views borrow from the original
 array, but can even be sent to separate threads. Naturally we have one eye
 on integration with rayon.
+
+<img alt="split-at" src="/split_at.svg" width="412px" height="340px">
 
 
 ## Easier to be Generic
