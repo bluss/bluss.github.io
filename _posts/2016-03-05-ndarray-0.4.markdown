@@ -63,7 +63,7 @@ array + scalar at the same time.
 [4]: http://bluss.github.io/rust-ndarray/master/ndarray/trait.ScalarOperand.html
 
 `ArrayView` and `ArrayViewMut` now implement `From`, so that you can
-convert from slices and references into array views. These
+convert from slices and array references into array views. These
 conversion implementations are wrapped up into an even simpler form
 in trait [`AsArray`][5].
 
