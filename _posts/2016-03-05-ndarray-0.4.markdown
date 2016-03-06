@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "ndarray 0.4 is released!"
+title:  "Releasing ndarray 0.4"
 date:   2016-03-06 02:00:00 +0100
 categories: rust
 ---
@@ -28,7 +28,7 @@ This uses the new constructor `range` (contributed by @palango),
 and calls `.unwrap()` which will panic if the array does not have the
 correct number of elements for the new shape.
 
-<img alt="split-at" src="/split_at.svg">
+<img alt="split-at" src="/split_at.svg" width="412px" height="340px">
 
 Splitting the array along an axis looks like this:
 
