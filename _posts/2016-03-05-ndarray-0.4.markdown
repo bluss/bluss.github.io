@@ -28,7 +28,7 @@ This uses the new constructor `range` (contributed by @palango),
 and calls `.unwrap()` which will panic if the array does not have the
 correct number of elements for the new shape.
 
-![split_at](split_at.svg)
+<img alt="split-at" src="/split_at.svg">
 
 Splitting the array along an axis looks like this:
 
