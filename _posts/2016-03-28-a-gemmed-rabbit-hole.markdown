@@ -27,7 +27,7 @@ by breaking it down into component algorithms.
 <div style="float: right; width: 300px; padding: 10px;"> 
 <img style="max-width: 100%;" alt="matrix splitting scheme" src="/blis.jpg" />
 <small>
-Artist’s impression of the matrix packing process. The numbers 5, 4,
+<strike>Artist’s</strike>Madman’s impression of the matrix packing process. The numbers 5, 4,
 3, 2, 1 are nested loops (5 the outermost) where the microkernel is looped
 over as #1.
 You could look at the
