@@ -244,10 +244,6 @@ code generic over just f32, f64 is rather unpleasant!
 
 [blissys]: https://github.com/bluss/blis-sys
 
-[^1]:
-BLIS was a better fit for ndarray because it 1) allows arbitrary-ish row and column
-stride for input matrices, and 2) defaults to 64-bit indices, which means
-we have no corner cases (larger than 32-bit arrays) that need fallback.
+[^1]: BLIS was a better fit for ndarray because it 1) allows arbitrary-ish row and column stride for input matrices, and 2) defaults to 64-bit indices, which means we have no corner cases (larger than 32-bit arrays) that need fallback.  
 
-[^2]:
-4-by-4 is an example, and the kernel may instead by 8-by-4, or 8-by-8 etc.
+[^2]: 4-by-4 is an example, and the kernel may instead by 8-by-4, or 8-by-8 etc.
