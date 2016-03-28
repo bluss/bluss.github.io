@@ -11,7 +11,7 @@ I said I didn’t want to implement any linear algebra in Rust. Best to leave
 it to the experts! It seems I couldn’t resist the attraction.
 
 Someone mentioned [BLIS][blis], and I fell into the rabbit hole.
-It’s an interesting linear algebra implementation,
+It’s an interesting linear algebra package,
 some of its specifics also fit [ndarray][ndarray]
 better than regular [BLAS][blas] does, so I had to keep reading.[^1]
 
