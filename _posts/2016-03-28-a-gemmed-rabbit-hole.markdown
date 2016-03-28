@@ -230,7 +230,8 @@ a structure that makes it easy to improve by parallelization or optimization.
 ## Hello Scientific Computing and Related Things in Rust
 
 We have so much work to do! I would like to get in touch with others
-that are interested. We need a place to gather!
+that are interested. We need a place to gather, do you know about
+the irc channel `#rust-machine-learning` on freenode?
 
 One “simple” thing on my mind that requires people to gather to collaborate
 is to further the state of numerical traits in Rust. Even 
