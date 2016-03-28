@@ -191,7 +191,7 @@ The autovectorized result of our microkernel isn’t too shabby.
 There’s some good news here. Our code is
 maxing out the one core pretty well. Relatively few cycles idle, so we’re
 doing something right. It should be no surprise that OpenBLAS uses fewer
-instructions, they probably emit them with a bit more care! (Hand coded
+instructions, they probably emit them with a bit more care (hand coded
 assembly.)
 
 Our code can be a good fallback for the cases that OpenBLAS doesn’t handle,
