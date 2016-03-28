@@ -7,11 +7,11 @@ categories: rust
 
 I lied!
 
-I said I didn't want to implement any linear algebra in Rust. Best to leave
-it to the experts! It seems I couldn't resist the attraction.
+I said I didn’t want to implement any linear algebra in Rust. Best to leave
+it to the experts! It seems I couldn’t resist the attraction.
 
 Someone mentioned [BLIS][blis], and I fell into the rabbit hole.
-It's a really interesting linear algebra implementation,
+It’s a really interesting linear algebra implementation,
 some of its specifics also fit [ndarray][ndarray]
 better than regular [BLAS][blas] does, so I had to keep reading.[^1]
 
@@ -24,20 +24,22 @@ Really interesting! They present an efficient approach to implementing
 matrix multiplication and a whole “BLAS-like” suite of algorithms,
 by breaking it down into component algorithms.
 
-<div style="float: right; width: 300px;"> 
+<div style="float: right; width: 300px; padding: 10px;"> 
 <img style="max-width: 100%;" alt="matrix splitting scheme" src="/blis.jpg" />
-Artist's impression of the matrix packing process. The numbers 5, 4,
+<small>
+Artist’s impression of the matrix packing process. The numbers 5, 4,
 3, 2, 1 are nested loops (5 the outermost) where the microkernel is looped
 over as #1.
 You could look at the
 <a href="https://github.com/flame/blis/wiki/Multithreading">real image</a>, too.
+</small>
 </div>
 
 In particular they have [this image][mt] ([from wiki][w]) which shows well
 how they partition the matrices. With their scheme, it does not seem so hard
 after all to implement a good matrix multiplication.
 
-At the core of it all, there's just one matrix multiplication kernel,
+At the core of it all, there’s just one matrix multiplication kernel,
 a _microkernel_, that takes as input two 4-by-k input columns of data and
 multiply-add it into a 4-by-4 result matrix.[^2]
 
@@ -52,9 +54,9 @@ is quite small. The expert opimized cores needed are reduced compared to other
 strategies. (They go on to reuse the microkernel for several related operations,
 such as the symmetric cases).
 
-I had to try to write this in Rust. It's not going to be revolutionary,
-but it's going to be fun, and a heck of an improvement over a naive matrix
-multiplication algorithm. This algorithm packs its data into a form that's
+I had to try to write this in Rust. It’s not going to be revolutionary,
+but it’s going to be fun, and a heck of an improvement over a naive matrix
+multiplication algorithm. This algorithm packs its data into a form that’s
 efficient to process, then feeds it to the microkernel. Packing the
 data pays off already when the matrices are very small.
 
@@ -127,12 +129,12 @@ we hope that the compiler can turn this into something decent!
 ## Benchmark
 
 To evaluate it, I plug it in to ndarray's benchmarks. Ndarray can already use
-OpenBLAS, and it's easy to plug in this new code too.
+OpenBLAS, and it’s easy to plug in this new code too.
 
 The benchmark problem is a matrix multiplication where *A* is 128-by-10000
 and *B* is 10000-by-128.
 
-Let's see how they compare, the new code first:
+Let’s see how they compare, the new code first:
 
 <pre>
 test mat_mul_f32::mix10000         ... bench:  23,711,252 ns/iter (+/- 479,749)
@@ -185,14 +187,14 @@ Note that these are not timing runs.
        4,203170924 seconds time elapsed
 </pre>
 
-The autovectorized result of our microkernel isn't too shabby.
-There's some good news here. Our code is
-maxing out the one core pretty well. Relatively few cycles idle, so we're
+The autovectorized result of our microkernel isn’t too shabby.
+There’s some good news here. Our code is
+maxing out the one core pretty well. Relatively few cycles idle, so we’re
 doing something right. It should be no surprise that OpenBLAS uses fewer
 instructions, they probably emit them with a bit more care! (Hand coded
 assembly.)
 
-Our code can be a good fallback for the cases that OpenBLAS doesn't handle,
+Our code can be a good fallback for the cases that OpenBLAS doesn’t handle,
 in particular the general stride cases.
 
 ## Desserts
@@ -205,11 +207,12 @@ memory layouts of the operands)!
 [gemmcrate]: https://crates.io/crates/matrixmultiply
 [docs]: http://bluss.github.io/matrixmultiply/matrixmultiply/
 
-I guess the result kind of sucked, since it didn’t beat OpenBLAS?`I don’t think
-so, they are the experts, their work is based on code that goes decades back.
-See, I even told you so, stick with the experts.
+I guess the result kind of sucked, since it didn’t beat OpenBLAS? I don’t think
+so, they are the experts, their work is based on code that goes decades back,
+so we can’t be surprised.
+I even told you so, stick with the experts.
 
-If we don't do that, there's plenty of avenues to develop [matrixmultiply][gemmcrate].
+If we don’t do that, there’s plenty of avenues to develop [matrixmultiply][gemmcrate].
 1) Find a plain rust formulation that autovectorizes better, 2) Try unstable
 simd support 3) Try inline asm! We follow the methodology to only optimize
 the microkernel, it shouldn’t be too hard to improve this immensly with
@@ -219,22 +222,19 @@ inside the microkernel.
 Another interesting idea would be to use the blocked algorithm
 to implement a dense-sparse matrix multiplication.
 
-My lie wasn't so bad. It's not like I'm setting out to implement all of linear
-algebra. No promises if it's going to continue! In
+My lie wasn’t so bad. It’s not like I’m setting out to implement all of linear
+algebra. No promises if it’s going to continue! In
 the meanwhile, this implementation is perfectly reusable, general, and has
 a structure that makes it easy to improve by parallelization or optimization.
 
-## A Forum For Scientific Computing and Related Things in Rust
+## Hello Scientific Computing and Related Things in Rust
 
 We have so much work to do! I would like to get in touch with others
-that are interested. I’ve [created a forum thread][users] as a starting point
-for a place to gather.
+that are interested. We need a place to gather!
 
 One “simple” thing on my mind that requires people to gather to collaborate
 is to further the state of numerical traits in Rust. Even 
 code generic over just f32, f64 is rather unpleasant!
-
-[users]: .
 
 ## End
 
@@ -249,5 +249,5 @@ BLIS was a better fit for ndarray because it 1) allows arbitrary-ish row and col
 stride for input matrices, and 2) defaults to 64-bit indices, which means
 we have no corner cases (larger than 32-bit arrays) that need fallback.
 
-[^2]
+[^2]:
 4-by-4 is an example, and the kernel may instead by 8-by-4, or 8-by-8 etc.
