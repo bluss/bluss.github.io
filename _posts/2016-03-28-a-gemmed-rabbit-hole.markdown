@@ -11,7 +11,7 @@ I said I didn’t want to implement any linear algebra in Rust. Best to leave
 it to the experts! It seems I couldn’t resist the attraction.
 
 Someone mentioned [BLIS][blis], and I fell into the rabbit hole.
-It’s a really interesting linear algebra implementation,
+It’s an interesting linear algebra implementation,
 some of its specifics also fit [ndarray][ndarray]
 better than regular [BLAS][blas] does, so I had to keep reading.[^1]
 
@@ -39,7 +39,7 @@ In particular they have [this image][mt] ([from wiki][w]) which shows well
 how they partition the matrices. With their scheme, it does not seem so hard
 after all to implement a good matrix multiplication.
 
-At the core of it all, there’s just one matrix multiplication kernel,
+At the core of it there’s just one matrix multiplication kernel,
 a _microkernel_, that takes as input two 4-by-k input columns of data and
 multiply-add it into a 4-by-4 result matrix.[^2]
 
@@ -50,13 +50,13 @@ multiply-add it into a 4-by-4 result matrix.[^2]
 [w]: https://github.com/flame/blis/wiki/Multithreading
 
 Like the BLIS people found out, this means that the core of the operation
-is quite small. The expert opimized cores needed are reduced compared to other
+is quite small. The expert-optimized cores needed are reduced compared to earlier
 strategies. (They go on to reuse the microkernel for several related operations,
 such as the symmetric cases).
 
 I had to try to write this in Rust. It’s not going to be revolutionary,
 but it’s going to be fun, and a heck of an improvement over a naive matrix
-multiplication algorithm. This algorithm packs its data into a form that’s
+multiplication algorithm. This algorithm packs the matrices into a form that’s
 efficient to process, then feeds it to the microkernel. Packing the
 data pays off already when the matrices are very small.
 
