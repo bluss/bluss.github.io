@@ -214,9 +214,9 @@ I even told you so, stick with the experts.
 
 If we don’t do that, there’s plenty of avenues to develop [matrixmultiply][gemmcrate].
 1) Find a plain rust formulation that autovectorizes better, 2) Try unstable
-simd support 3) Try inline asm! We follow the methodology to only optimize
+simd support 3) Try inline asm! Following the methodology to only optimize
 the microkernel, it shouldn’t be too hard to improve this immensly with
-one of those techniques. In my benchmarks, 90% or more of the work is spent
+one of those techniques. 90% or more of the work is spent
 inside the microkernel.
 
 Another interesting idea would be to use the blocked algorithm
