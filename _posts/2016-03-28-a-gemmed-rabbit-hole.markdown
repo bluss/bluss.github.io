@@ -153,8 +153,8 @@ test mat_mul_f32::mix10000         ... bench:  11,583,222 ns/iter (+/- 377,390)
 
 Uh oh OpenBLAS is good! And this is even when both are running with just one thread
 (OpenBLAS will otherwise automatically use multiple threads for this problem).
-We can compare the vitals of the two runs, first our new code, then OpenBLAS.
-Note that these are not timing runs.
+We can compare the vitals (using `perf stat`) of the two runs, first our new
+code, then OpenBLAS.  Note that these are not timing runs.
 
 <pre style="font-size: small">
  # our gemm in Rust
