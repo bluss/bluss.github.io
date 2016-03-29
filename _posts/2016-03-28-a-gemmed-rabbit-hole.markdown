@@ -136,23 +136,23 @@ we hope that the compiler can turn this into something decent!
 
 This is what the f32 kernel compiles to on my platform (AVX):
 
-{% highlight nasm %}
-  vbroad xmm4,DWORD PTR [rsi]                  // a0                                                                                                                 ▒
-  vmovss xmm5,DWORD PTR [rax+0xc]              // b3                                                                                                                 ▒
-  vinser xmm5,xmm5,DWORD PTR [rax+0x8],0x10    // b2                                                                                                                 ▒
-  vinser xmm5,xmm5,DWORD PTR [rax+0x4],0x20    // b1                                                                                                                 ▒
-  vinser xmm5,xmm5,DWORD PTR [rax],0x30        // b0                                                                                                                 ▒
-  vmulps xmm4,xmm4,xmm5                                                                                                                                              ▒
-  vaddps xmm3,xmm3,xmm4                                                                                                                                              ▒
-  vbroad xmm4,DWORD PTR [rsi+0x4]              // a1                                                                                                                 ▒
-  vmulps xmm4,xmm4,xmm5                                                                                                                                              ▒
-  vaddps xmm2,xmm2,xmm4                                                                                                                                              ▒
-  vbroad xmm4,DWORD PTR [rsi+0x8]              // a2                                                                                                                 ▒
-  vmulps xmm4,xmm4,xmm5                                                                                                                                              ▒
-  vaddps xmm1,xmm1,xmm4                                                                                                                                              ▒
-  vbroad xmm4,DWORD PTR [rsi+0xc]              // a3                                                                                                                 ▒
-  vmulps xmm4,xmm4,xmm5                                                                                                                                              ▒
-  vaddps xmm0,xmm0,xmm4  
+{% highlight assembly %}
+  vbroad xmm4,DWORD PTR [rsi]                  // a0
+  vmovss xmm5,DWORD PTR [rax+0xc]              // b3
+  vinser xmm5,xmm5,DWORD PTR [rax+0x8],0x10    // b2
+  vinser xmm5,xmm5,DWORD PTR [rax+0x4],0x20    // b1
+  vinser xmm5,xmm5,DWORD PTR [rax],0x30        // b0
+  vmulps xmm4,xmm4,xmm5                             
+  vaddps xmm3,xmm3,xmm4                             
+  vbroad xmm4,DWORD PTR [rsi+0x4]              // a1
+  vmulps xmm4,xmm4,xmm5                             
+  vaddps xmm2,xmm2,xmm4                             
+  vbroad xmm4,DWORD PTR [rsi+0x8]              // a2
+  vmulps xmm4,xmm4,xmm5                             
+  vaddps xmm1,xmm1,xmm4                             
+  vbroad xmm4,DWORD PTR [rsi+0xc]              // a3
+  vmulps xmm4,xmm4,xmm5                             
+  vaddps xmm0,xmm0,xmm4 
 {% endhighlight %}
 
 This is nice, even if this is far from optimal.
