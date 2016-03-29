@@ -134,8 +134,7 @@ we hope that the compiler can turn this into something decent!
 
 This is what the f32 kernel compiles to on my platform (AVX):
 
-<div style="font-size: small">
-{% highlight assembly %}
+<pre style="font-size: small">
   vbroad xmm4,DWORD PTR [rsi]                  // a0
   vmovss xmm5,DWORD PTR [rax+0xc]              // b3
   vinser xmm5,xmm5,DWORD PTR [rax+0x8],0x10    // b2
@@ -152,8 +151,7 @@ This is what the f32 kernel compiles to on my platform (AVX):
   vbroad xmm4,DWORD PTR [rsi+0xc]              // a3
   vmulps xmm4,xmm4,xmm5                             
   vaddps xmm0,xmm0,xmm4 
-{% endhighlight %}
-</div>
+</pre>
 
 This is nice, even if this is far from optimal.
 I've put in comments where each word is loaded. The a0-3 go into
