@@ -101,24 +101,26 @@ pub unsafe fn kernel_4x4(k: usize, alpha: f32, a: *const f32, b: *const f32,
         b = b.offset(4);
     });
 
-    // Initialize or scale C by beta
-    let mut cptr = [[0 as *mut _; 4]; 4];
-    loop4x4!(i, j, cptr[i as usize][j as usize] = c.offset(rsc * i + csc * j));
-    if beta == 0. {
-        loop4x4!(i, j, *cptr[i][j] = 0.); // initialize C
-    } else {
-        loop4x4!(i, j, *cptr[i][j] *= beta);
+
+    macro_rules! c {
+        ($i:expr, $j:expr) => (c.offset(rsc * $i as isize + csc * $j as isize));
     }
 
-    // Store ab[i][j] into c, using alpha
-    loop4x4!(i, j, *cptr[i][j] += alpha * ab[i][j]);
+    // Compute C = alpha A B + beta C,
+    // except we can not read C if beta is zero.
+    if beta == 0. {
+        loop4x4!(i, j, *c![i, j] = alpha * ab[i][j]);
+    } else {
+        loop4x4!(i, j, *c![i, j] = *c![i, j] * beta + alpha * ab[i][j]);
+    }
 }
 
 {% endhighlight %}
 
 I’m making a mockery of rust by using some [simple macros][mc] for sixteenfold
-repetition and for unrolling the loop. Apart from that, these are just some
-simple regular f32 operations.
+repetition and for unrolling the loop. (And yes, macros can ”capture” local
+variables like `c![]` does.) Apart from that, these are just some
+simple f32 operations.
 
 With the kernel in place, “only” add [the five nested loops][loop] around it,
 and it's complete.
