@@ -156,7 +156,7 @@ This is what the f32 kernel compiles to on my platform (AVX):
 This is nice, even if this is far from optimal.
 I've put in comments where each word is loaded. The a0-3 go into
 separate vectors (nickname `row[i]`), and the b0-3 into one vector (`xmm5`),
-then we compute `ab[i] = row[i] * b for i = 0..4`.
+then we compute `ab[i] += row[i] * b for i = 0..4`.
 
 ## Benchmark
 
