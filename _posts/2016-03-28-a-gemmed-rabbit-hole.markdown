@@ -132,7 +132,7 @@ we hope that the compiler can turn this into something decent!
 
 [mc]: https://play.rust-lang.org/?gist=8ab944302b630a2df4f3&version=stable
 
-This is what the f32 kernel compiles to on my platform (AVX):
+This is what one iteration of the f32 kernel compiles to on my platform (AVX):
 
 <pre style="font-size: small">
   vbroad xmm4,DWORD PTR [rsi]                  // a0
