@@ -132,10 +132,9 @@ we hope that the compiler can turn this into something decent!
 
 [mc]: https://play.rust-lang.org/?gist=8ab944302b630a2df4f3&version=stable
 
-## The Kernel
-
 This is what the f32 kernel compiles to on my platform (AVX):
 
+<div style="font-size: small">
 {% highlight assembly %}
   vbroad xmm4,DWORD PTR [rsi]                  // a0
   vmovss xmm5,DWORD PTR [rax+0xc]              // b3
@@ -154,6 +153,7 @@ This is what the f32 kernel compiles to on my platform (AVX):
   vmulps xmm4,xmm4,xmm5                             
   vaddps xmm0,xmm0,xmm4 
 {% endhighlight %}
+</div>
 
 This is nice, even if this is far from optimal.
 I've put in comments where each word is loaded. The a0-3 go into
