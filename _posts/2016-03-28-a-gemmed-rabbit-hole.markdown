@@ -125,7 +125,7 @@ simple f32 operations.
 With the kernel in place, “only” add [the five nested loops][loop] around it,
 and it's complete.
 
-[loop]: https://github.com/bluss/matrixmultiply/blob/ccb0be9df381208f314562a2b6fbef0d258af0a5/src/gemm.rs#L73-L172
+[loop]: https://github.com/bluss/matrixmultiply/blob/4e48dffa840f005babeebd04be676e2faa258b73/src/gemm.rs#L78-L176
 
 Now we turn to `RUSTFLAGS="-C target-cpu=native" cargo build --release` and
 we hope that the compiler can turn this into something decent! 
