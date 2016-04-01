@@ -178,9 +178,11 @@ And compare with OpenBLAS:
 test mat_mul_f32::mix10000         ... bench:  11,583,222 ns/iter (+/- 377,390)
 </pre>
 
-(*Edit: Now, later, I managed to improve this to halve the difference, see [PR][pr]*!)
+(*Edit: Later I managed to improve the pure rust version to
+ just 14,278,440 ns/iter see [(1)][pr1] and [(2)][pr2]*!)
 
-[pr]: https://github.com/bluss/matrixmultiply/pull/1
+[pr1]: https://github.com/bluss/matrixmultiply/pull/1
+[pr2]: https://github.com/bluss/matrixmultiply/pull/4
 
 Uh oh OpenBLAS is good! And this is even when both are running with just one thread
 (OpenBLAS will otherwise automatically use multiple threads for this problem).
