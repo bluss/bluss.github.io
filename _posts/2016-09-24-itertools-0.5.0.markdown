@@ -1,0 +1,69 @@
+---
+layout: post
+title:  "Releasing itertools 0.5.0"
+date:   2016-09-24 12:00:00 +0200
+categories: rust
+---
+
+[***itertools***][1] is a Rust library that provides extra functionality
+for Rust’s iterators: extra adaptors, methods, free functions, macros.
+
+We are now releasing version 0.5.0, which is a significant step up in consistency
+and clarity.
+
+[1]: https://crates.io/crates/itertools
+
+The release goals were:
+
+> We want to increase consistency, keep all the very useful stuff, remove the
+> things that are never used, and move out the things that are better off in
+> other crates.
+
+The main user-noticable features will be that the docs are easier to navigate,
+useful things now have shorter names (Example: [`.format()`][2]), and there
+are lots of free functions in the crate’s root, previously hidden inside 
+`itertools::free`.
+
+[2]: https://bluss.github.io/rust-itertools/doc/itertools/trait.Itertools.html#method.format
+
+This one is my favourite:
+
+{% highlight rust %}
+use itertools::enumerate;
+
+let values = vec![0; 16];
+for (i, elt) in enumerate(&mut values) {
+    /* loop body */
+}
+{% endhighlight %}
+
+I think of this as the power shift that occurred when `IntoIterator` was introduced.
+We chain iterator adaptors on *Iterators*, but we often work with *IntoIterators*.
+Free functions are now often just as neat to use, since they allow us to use
+iterables directly, without manual calls to `.iter_mut()` or similar.
+
+[Either][either] is an enum with variants `Left` and `Right`. It's very generic,
+but itertools includes it for a couple of reasons: `.partition_map()` already
+needs generic selection of elements to either the left or right side,
+`Either<L, R>` implements `Iterator` itself, and is thus its own kind of adapter,
+and lastly, we can use `Either` to express some more nice iterator adapters
+in the future ([ideas][bug]).
+
+I took care to bump either to version 1.0 before pushing it into the limelight
+like this, in case it proliferates we want its version story to be friction
+free from here on out.
+
+[either]: https://crates.io/crates/either
+[bug]: https://github.com/bluss/rust-itertools/issues/129
+
+What we have had to do is to remove unstable, unused or ill thought out parts
+of the library. `mend_slices` is super cool but doesn't have a real use case,
+so we pawn it off to crate [odds][odds] along with `Stride`, `StrideMut`.
+`linspace` needs numerical traits, so it lives in [itertools-num][in] now.
+
+The [full changelog is in the README][chl]. These are just the breaking changes,
+we’ll continue to add a few features now that we have a nice clean start.
+
+[odds]: https://crates.io/crates/odds
+[in]: https://crates.io/crates/itertools-num
+[chl]: https://github.com/bluss/rust-itertools#recent-changes
