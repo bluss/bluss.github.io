@@ -85,11 +85,13 @@ for (i, j, k) in (1..5).tuple_combinations() {
 
 Another new feature is [Either][eit]. It is an enum with variants `Left` and
 `Right`. It's very generic, but itertools includes it for a couple of reasons:
-`.partition_map()` already needs generic selection of elements to either the
-left or right side, `Either<L, R>` implements `Iterator` itself when `L` and
-`R` are iterators, and is thus its own kind of adapter, and lastly, we can use
+[`.partition_map()`][pm] already needs generic selection of elements to either the
+left or right side; `Either<L, R>` implements `Iterator` itself when `L` and
+`R` are iterators and is thus its own kind of adapter; and lastly, we can use
 `Either` to express some more nice iterator adapters in the future
 ([ideas][bug]).
+
+[pm]: https://bluss.github.io/rust-itertools/doc/itertools/trait.Itertools.html#method.partition_map
 
 I took care to bump [crate `either`][either] to version 1.0 before pushing it into the
 limelight like this, in case it proliferates we want its version story to be
