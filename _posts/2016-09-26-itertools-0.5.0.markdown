@@ -33,6 +33,14 @@ println!("{:.2}", data.iter().format(", "));
 // output is "1.10, 2.72, -3.00"
 {% endhighlight %}
 
+Other renames are `.group_by_lazy()` → [`.group_by()`][groupby] and `.chunks_lazy()` →
+[`.chunks()`][chunks], and many others. The most used items, like these mentioned,
+have the old name with a deprecation warning (This is also the first release
+where the required Rust version is such that we can use deprecation warnings).
+
+[groupby]: https://bluss.github.io/rust-itertools/doc/itertools/trait.Itertools.html#method.group_by
+[chunks]: https://bluss.github.io/rust-itertools/doc/itertools/trait.Itertools.html#method.chunks
+
 [2]: https://bluss.github.io/rust-itertools/doc/itertools/trait.Itertools.html#method.format
 
 And then when it comes to free functions, this one is my favourite, it’s
