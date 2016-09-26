@@ -23,7 +23,7 @@ navigate, useful things now have shorter names, and there are lots of free
 functions in the crate’s root, previously hidden inside `itertools::free`.
 
 One popular and really useful feature that got a shorter name is
-[`.format()`][2], which allows you to format each element in an iterator.
+[`.format()`][2], which allows you to format each element in an iterator:
 
 {% highlight rust %}
 use itertools::Itertools;
@@ -67,7 +67,7 @@ we can call them on iterables directly, without manual calls to `.iter()`,
 There were new features in 0.5 too! As a last minute thing, [@malbarbo
 contributed][151] a generalization of the combinations of pairs that was
 previously called `.combinations()` and it is now [`.tuple_combinations()`][tc] which
-handles 1 to 4-tuples of combinations as it is now.
+handles 1 to 4-tuples of combinations as it is now:
 
 [151]: https://github.com/bluss/rust-itertools/pull/151
 [tc]: https://bluss.github.io/rust-itertools/doc/itertools/trait.Itertools.html#method.tuple_combinations
