@@ -84,7 +84,7 @@ for (i, j, k) in (1..5).tuple_combinations() {
 {% endhighlight %}
 
 Another new feature is [Either][eit]. It is an enum with variants `Left` and
-`Right`. It's very generic, but itertools includes it for a couple of reasons:
+`Right`. It's very generic, but itertools reexports it for a couple of reasons:
 [`.partition_map()`][pm] already needs generic selection of elements to either the
 left or right side; `Either<L, R>` implements `Iterator` itself when `L` and
 `R` are iterators and is thus its own kind of adapter; and lastly, we can use
