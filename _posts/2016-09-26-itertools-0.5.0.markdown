@@ -43,8 +43,8 @@ where the required Rust version is such that we can use deprecation warnings).
 
 [2]: https://bluss.github.io/rust-itertools/doc/itertools/trait.Itertools.html#method.format
 
-And then when it comes to free functions, this one is my favourite, it’s
-just the usual `.enumerate()` in a new form:
+When it comes to free functions, this one is my favourite, it’s just the usual
+`.enumerate()` in a new form:
 
 {% highlight rust %}
 use itertools::enumerate;
