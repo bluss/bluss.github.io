@@ -66,7 +66,7 @@ we can call them on iterables directly, without manual calls to `.iter()`,
 
 There were new features in 0.5 too! As a last minute thing, [@malbarbo
 contributed][151] a generalization of the combinations of pairs that was
-previously called `.combinations()` and it is now [`.tuple_combinations()`[tc] which
+previously called `.combinations()` and it is now [`.tuple_combinations()`][tc] which
 handles 1 to 4-tuples of combinations as it is now.
 
 [151]: https://github.com/bluss/rust-itertools/pull/151
