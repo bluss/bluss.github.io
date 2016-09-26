@@ -18,9 +18,11 @@ The release goals were:
 > things that are never used, and move out the things that are better off in
 > other crates.
 
-The main user-noticable features are intended to be that the docs are easier to
+The main user-noticable features are intended to be that [**the docs**][docs] are easier to
 navigate, useful things now have shorter names, and there are lots of free
 functions in the crate’s root, previously hidden inside `itertools::free`.
+
+[docs]: https://bluss.github.io/rust-itertools/
 
 One popular and really useful feature that got a shorter name is
 [`.format()`][2], which allows you to format each element in an iterator:
