@@ -76,9 +76,9 @@ handles 1 to 4-tuples of combinations as it is now.
 use itertools::Itertools;
 
 for (i, j, k) in (1..5).tuple_combinations() {
-    // The loop goes through:
-    // (1, 2, 3) (1, 2, 4), (1, 3, 4), (2, 3, 4), and then it's done.
-    // remember: in combinations, the order of the elements does not matter,
+    // The loop goes through
+    // (1, 2, 3) (1, 2, 4), (1, 3, 4), (2, 3, 4) and then it's done.
+    // remember: in combinations the order of the elements does not matter,
     // in permutations it does.
 }
 {% endhighlight %}
