@@ -59,7 +59,7 @@ for (i, elt) in enumerate(&mut values) {
 
 What I see here is the power shift that occurred when `IntoIterator` was introduced.
 We chain iterator adaptors on *Iterators*, but iterations start out with
-*IntoIterators* a lot of the time.  Free functions are now often just as neat
+*IntoIterators* a lot of the time.  Free functions are often just as neat
 to use, since we can call them on iterables directly, without manual calls to
 `.iter()`, `.iter_mut()` and so on. Another up and coming free function is
 [`cloned(&collection)`][cl]!
