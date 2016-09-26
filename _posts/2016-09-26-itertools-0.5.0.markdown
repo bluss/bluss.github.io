@@ -5,8 +5,8 @@ date:   2016-09-26 21:20:00 +0200
 categories: rust
 ---
 
-[***itertools***][1] is a Rust library that provides extra functionality
-for Rust’s iterators: extra adaptors, methods, free functions, macros.
+[**itertools**][1] is a Rust library that provides extra functionality
+for Rust’s iterators: extra adaptors, methods, free functions, and macros.
 
 We are now releasing version 0.5.0, which is a significant step up in consistency
 and clarity.
@@ -30,13 +30,14 @@ One popular and really useful feature that got a shorter name is
 use itertools::Itertools;
 
 let data = [1.1, 2.71828, -3.];
-println!("{:.2}", data.format(", "));
+println!("{:.2}", data.iter().format(", "));
 // output is "1.10, 2.72, -3.00"
 {% endhighlight %}
 
 [2]: https://bluss.github.io/rust-itertools/doc/itertools/trait.Itertools.html#method.format
 
-When it comes to free functions, this one is my favourite
+And then when it comes to free functions, this one is my favourite, it’s
+just the usual `.enumerate()` in a new form:
 
 {% highlight rust %}
 use itertools::enumerate;
@@ -50,7 +51,8 @@ for (i, elt) in enumerate(&mut values) {
 I think of this as the power shift that occurred when `IntoIterator` was introduced.
 We chain iterator adaptors on *Iterators*, but we often work with *IntoIterators*.
 Free functions are now often just as neat to use, since they allow us to use
-iterables directly, without manual calls to `.iter_mut()` or similar.
+iterables directly, without manual calls to `.iter()`, `.iter_mut()` and so on.
+Another up and coming free function is `cloned(iterable)`!
 
 There were new features too! As a last minute thing, [@malbarbo contributed][151]
 a generalization of the combinations of pairs that was previously called
@@ -73,13 +75,14 @@ for (i, j, k) in (1..5).tuple_combinations() {
 Another new feature is [Either][either]. It is an enum with variants `Left` and
 `Right`. It's very generic, but itertools includes it for a couple of reasons:
 `.partition_map()` already needs generic selection of elements to either the
-left or right side, `Either<L, R>` implements `Iterator` itself, and is thus
-its own kind of adapter, and lastly, we can use `Either` to express some more
-nice iterator adapters in the future ([ideas][bug]).
+left or right side, `Either<L, R>` implements `Iterator` itself when `L` and
+`R` are iterators, and is thus its own kind of adapter, and lastly, we can use
+`Either` to express some more nice iterator adapters in the future
+([ideas][bug]).
 
-I took care to bump either to version 1.0 before pushing it into the limelight
-like this, in case it proliferates we want its version story to be friction
-free from here on out.
+I took care to bump crate `either` to version 1.0 before pushing it into the
+limelight like this, in case it proliferates we want its version story to be
+friction free from here on out.
 
 [either]: https://crates.io/crates/either
 [bug]: https://github.com/bluss/rust-itertools/issues/129
@@ -89,8 +92,9 @@ of the library. `mend_slices` is super cool but doesn't have a real use case,
 so we pawn it off to crate [odds][odds] along with `Stride`, `StrideMut`.
 `linspace` needs numerical traits, so it lives in [itertools-num][in] now.
 
-The [full changelog is in the README][chl]. These are just the breaking changes,
-we’ll continue to add a few features now that we have a nice clean start.
+The [full changelog is in the README][chl]. These were mostly just the breaking
+changes, we’ll continue to add a few features now that we have a nice clean
+base.
 
 [odds]: https://crates.io/crates/odds
 [in]: https://crates.io/crates/itertools-num
