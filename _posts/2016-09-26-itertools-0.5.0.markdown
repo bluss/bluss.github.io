@@ -101,10 +101,11 @@ friction free from here on out.
 [either]: https://crates.io/crates/either
 [bug]: https://github.com/bluss/rust-itertools/issues/129
 
-What we have had to do is to remove unstable, unused or ill thought out parts
-of the library. `mend_slices` is super cool but doesn't have a real use case,
-so we pawn it off to crate [odds][odds] along with `Stride`, `StrideMut`.
-`linspace` needs numerical traits, so it lives in [itertools-num][in] now.
+The last job the 0.5 release had was to remove unstable, unused or ill fitting
+parts of the library. `mend_slices` is super cool but doesn't have a real
+use case, so we pawn it off to crate [odds][odds] along with slice-focused
+tools `Stride` and `StrideMut`. `linspace` needs numerical traits, so it lives in
+[itertools-num][in] now.
 
 The [full changelog is in the README][chl]. These were mostly just the breaking
 changes, we’ll continue to add a few features now that we have a nice clean
