@@ -12,12 +12,12 @@ for visitor callbacks that hits the sweet spot for both convenience and the
 [1]: https://docs.rs/petgraph/
 
 It’s a visitor callback based graph traversal function, and of course it
-should support breaking the traversal early if the user needs that. 
+should support breaking the traversal early.
 
-One common solution is to use a boolean return value in the visitor callback.
+One common solution is to use a boolean return value for the visitor closure.
 `true` to continue, and `false` to break — or is it the other way around? At
-this point I much prefer enums to booleans, they make the code so much easier
-to both read and write.
+this point in my Rust experience much prefer enums to booleans, they make the
+code easier to both read and write.
 
 Enums are one of Rust’s absolute best features, and we can quickly express
 what we want. We allow the user to break with a value:
