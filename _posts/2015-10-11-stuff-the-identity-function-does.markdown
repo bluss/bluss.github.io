@@ -155,3 +155,13 @@ If you actually use this, I think `moving` is actually a pretty good name
 fn moving<T>(x: T) -> T { x }
 {% endhighlight %}
 
+
+## Epilogue
+
+It's February 2017 and this is hilarious:
+
+Calling `id::<&T>()`, since it's a passing a shared reference, inserts
+a `noalias` annotation for the pointer, which might otherwise not have been
+there! As soon as llvm's metadata propagation improves, it might even have
+actual use.
+
