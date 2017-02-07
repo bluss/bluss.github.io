@@ -160,8 +160,8 @@ fn moving<T>(x: T) -> T { x }
 
 It's February 2017 and this is hilarious:
 
-Calling `id::<&T>()`, since it's a passing a shared reference, inserts
-a `noalias` annotation for the pointer, which might otherwise not have been
+Calling `id::<&T>(p)`, since it's a passing a shared reference, inserts
+a `noalias` annotation for the pointer `p`, which might otherwise not have been
 there! As soon as llvm's metadata propagation improves, it might even have
 actual use.
 
