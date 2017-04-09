@@ -81,10 +81,10 @@ Zip::from(&mut A)
     });
 {% endhighlight %}
 
-What we have in `Zip` is a general tool that allows the user to wield the
-power. The inputs can be arbitrary arrays, slices of other arrays or producers.
-As many of the inputs as needed can be mutable. Delivered with an interface
-that provides a memory safe API using bounds checking by default.
+What we have in `Zip` is a general tool that allows the user to write efficient
+loops with a memory safe API using bounds checking by default.  The inputs can
+be arbitrary arrays, slices of other arrays or producers.  As many of the
+inputs as needed can be mutable.
 
 The compiler can often vectorize the code in the loop, even if we have many
 inputs or outputs.
