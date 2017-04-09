@@ -50,56 +50,58 @@ often iterable (convertible to iterators) but not iterators themselves.
 Imagine we want to do an operation of many operands efficiently and without
 allocating intermediate results. Even computing *A* + *B*, storing the result
 in *C* is a ternary operation if none of *A* or *B* are consumed and reused for
-the output. A more involved example is: add to *A* the elementwise difference
-of *B* and *C* and the difference of *D* and *E*:
+the output.
+
+A more involved example is, take 2D arrays *A, B, C* and 3D array *D*; for
+each element in *A, B, C*, we have a row in *D*; add to
+*A* the elementwise difference of *B* and *C* and the difference the second
+and first element of the matching row in *D*.
 
 {% highlight rust %}
-A += B - C + D - E
+// pseudocode!
+A += B - C + D[.., .., 1] - D.row[.., .., 0]
 {% endhighlight %}
 
 The question is how to do the operation in place on the elements in *A*, without
-allocating intermediate results for the subtractions. In ndarray we don't have
+allocating intermediate results for the subtractions. In ndarray we don’t have
 any “algebloat” but I think the underlying implementation would be the same. We
 have `Zip` to apply functions elementwise across many operands:
 
 {% highlight rust %}
 use ndarray::Zip;
 
-// Assuming A, B, C, D, E are of the same shape
 // in .apply() we perform the element or item-wise operation
 
 Zip::from(&mut A)
     .and(&B)
     .and(&C)
-    .and(&D)
-    .and(&E)
-    .apply(|a, &b, &c, &d, &e| {
-    	*a += b - c + d - e;
+    .and(D.genrows())
+    .apply(|a, &b, &c, d_row| {
+    	*a += b - c + d_row[1] - d_row[0];
     });
 {% endhighlight %}
 
-What we have in `Zip` is a general implementation that allows the user to wield the
-power. The inputs can be arbitrary arrays or slices of other arrays. As many
-of the inputs as needed can be mutable.
+What we have in `Zip` is a general tool that allows the user to wield the
+power. The inputs can be arbitrary arrays, slices of other arrays or producers.
+As many of the inputs as needed can be mutable. Delivered with an interface
+that provides a memory safe API using bounds checking by default.
 
-The loop can be vectorized by the compiler, even if we have many outputs
-and we don't have any roadblocks from iterator code generation; the arrays
-are checked to have the same dimensionality and sizes up front and then it goes.
+The compiler can often vectorize the code in the loop, even if we have many
+inputs or outputs.
 
 We embrace rayon’s idea of easy to add parallelization: import the ndarray
-parallel crate and change `.apply(` to `.par_apply`, and it's parallelized:
+parallel crate and change `.apply(` to `.par_apply`, and it’s parallelized:
 
 {% highlight rust %}
 use ndarray::Zip;
 use ndarray_parallel::prelude::*;
 
 Zip::from(&mut A)
-    .and(&C)
     .and(&B)
-    .and(&E)
-    .and(&D)
-    .par_apply(|a, &c, &b, &d, &e| {
-    	*a += b - c + d - e;
+    .and(&C)
+    .and(D.genrows())
+    .par_apply(|a, &b, &c, d_row| {
+    	*a += b - c + d_row[1] - d_row[0];
     });
 {% endhighlight %}
 
@@ -127,7 +129,7 @@ Zip::from(&mut A)
 
   We have generalized it to higher dimensions in this way: an array with
   dimensions *m* × *n* × *k* has *m* × *k* generalized rows, each of *k*
-  elements (it's like *m* stacked matrices of dimension *n* × *k*).
+  elements (it’s like *m* stacked matrices of dimension *n* × *k*).
 
 See the [full release notes for details][rn].
 
