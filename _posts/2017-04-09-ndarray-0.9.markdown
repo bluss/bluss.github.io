@@ -135,5 +135,5 @@ Zip::from(&mut A)
 
 See the [full release notes for details][rn].
 
-[gemv]: https://github.com/bluss/rust-ndarray/blob/1006a7d20fcb7277620cf8dd6de1560172833f95/src/linalg/impl_linalg.rs#L565-L579
+[gemv]: https://github.com/bluss/rust-ndarray/blob/0.9.0/src/linalg/impl_linalg.rs#L565-L579
 [rn]: https://github.com/bluss/rust-ndarray#recent-changes-ndarray
