@@ -130,7 +130,7 @@ Zip::from(&mut A)
   the row count.
 
   We have generalized it to higher dimensions in this way: an array with
-  dimensions *m* × *n* × *k* has *m* × *k* generalized rows, each of *k*
+  dimensions *m* × *n* × *k* has *m* × *n* generalized rows, each of *k*
   elements (it’s like *m* stacked matrices of dimension *n* × *k*).
 
 See the [full release notes for details][rn].
