@@ -59,7 +59,7 @@ and first element of the matching row in *D*.
 
 {% highlight rust %}
 // pseudocode!
-A += B - C + D[.., .., 1] - D.row[.., .., 0]
+A += B - C + D[.., .., 1] - D[.., .., 0]
 {% endhighlight %}
 
 The question is how to do the operation in place on the elements in *A*, without
