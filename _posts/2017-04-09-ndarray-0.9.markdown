@@ -1,0 +1,131 @@
+---
+layout: post
+title:  "ndarray 0.9"
+date:   2017-04-09 18:56:00 +0200
+categories: rust
+---
+
+[**ndarray**][1] is a data structure library for Rust that implements an
+*n*-dimensional array for general elements and for numerical computation.
+
+By *n*-dimensional we mean the generalization of the one dimensional vectors
+that have 1 axis, two dimensional matrices (2 axes), etc to arrays with *n*
+*axes*. In our general use the number of axes of the data is usally small: we
+one, two or three dimensions. The main features of the library is its support
+for slicing, iteration and array view-taking, using the usual (in Rust)
+separation of owned (`Array`) and borrowing (`ArrayView`, `ArrayViewMut`) data
+types.
+
+[1]: https://github.com/bluss/rust-ndarray
+
+The new version of ndarray is 0.9.0 and it has a very exciting feature: support
+for parallelization of `Zip`!
+
+`Zip` is our implementation of *lock-step function application across
+several producers*; just like `.zip()` is used to iterate two iterators in
+lock step, we use the `Zip` object to do a similar operation across several
+producers. Not just two, but up to six producers [^1] and not just arrays,
+but *producers*. For example, if we cut a 2D array into 2 × 2 chunks,
+the chunk producer is a two dimensional producer in itself, each item a chunk!
+
+## Why Producers?
+
+We use the trait `NdProducer` for `Zip`, and not usual iterators. We have two
+goals: efficient loops and [rayon][rayon]-style parallelization. Efficient
+loops require that we use memory layout information from the producers and
+adapt the loop the best we can. rayon-style parallelization requires the `Zip`
+object can be split, and we again use the memory layout information to split
+them along the axis that has the biggest stride (biggest separation in memory).
+
+Iterators keep the state of iteration, and splitting the iterators is tricky
+when we have an iteration state different from its starting state. So we use
+producers that are often iterable (convertible to iterators) but not iterators
+themselves.
+
+[rayon]: http://smallcultfollowing.com/babysteps/blog/2017/04/06/rayon-0-7-released/
+
+## Why Zip?
+
+Imagine we want to do a ternary operation, efficiently and without allocating
+intermediate results. Even computing *A* + *B*, storing the result in *C* is
+a ternary operation if none of *A* or *B* are consumed and reused for the
+output. A more involved example is: add to *A* the elementwise difference
+of *B* and *C* and the difference of *D* and *E*:
+
+{% highlight rust %}
+A += B - C + D - E
+{% endhighlight %}
+
+The question is how to do the operation in place on the elements in *A*, without
+allocating intermediate results for the subtractions. In ndarray we don't have
+any “algebloat” but I think the underlying implementation would be the same. We
+have `Zip` to apply functions elementwise across many operands:
+
+{% highlight rust %}
+use ndarray::Zip;
+
+// Assuming A, B, C, D, E are of the same shape
+// in .apply() we perform the element or item-wise operation
+
+Zip::from(&mut A)
+    .and(&B)
+    .and(&C)
+    .and(&D)
+    .and(&E)
+    .apply(|a, &b, &c, &d, &e| {
+    	*a += c - b + d - e;
+    });
+{% endhighlight %}
+
+What we have is a general implementation that allows the user to wield the
+power. The loop can be vectorized by the compiler, even if we have many outputs
+and we don't have any roadblocks from iterator code generation; the arrays
+are checked to have the same dimensionality and sizes up front and then it goes.
+
+We embrace rayon’s idea of easy to add parallelization: import the ndarray
+parallel crate and change `.apply(` to `.par_apply`, and it's parallelized:
+
+{% highlight rust %}
+use ndarray::Zip;
+use ndarray_parallel::prelude::*;
+
+Zip::from(&mut A)
+    .and(&C)
+    .and(&B)
+    .and(&E)
+    .and(&D)
+    .par_apply(|a, &c, &b, &d, &e| {
+    	*a += c - b + d - e;
+    });
+{% endhighlight %}
+
+
+## Other News in Ndarray 0.9
+
++ `Zip::indexed` which passes the index of the current item as the first
+  parameter to `Zip`’s `.apply()` or `.fold_while()`
++ The `.windows()` producer contributed by @Robbepop. It produces
+  overlapping array views of a particular size, iterating by moving it one
+  element at a time, just like `.windows(n)` does for a slice. It is an
+  `NdProducer` and iterable, and can be paired with arrays etc using `Zip` as
+  well.
++ `general_mat_vec_mul` was added to allow matrix-vector multiplication in place,
+  without allocating a new result. The fallback [implementation][gemv] is a simple application
+  of `Zip`, pairing a row-by-row producer of the matrix with the element
+  producer of the output vector.
++ `IxDyn` which is used for arrays with dynamic number of axes, uses a
+  “short vector” optimization and uses no allocation for short cases.
++ New methods `.genrows()` and `.gencolumns()` give easier access to
+  row and column iterables (and you guessed it — producers).
+
+  “gen” is for generalized; the method name `rows()` is already taken for returning
+  the *row count*.
+
+  We have generalized it to higher dimensions this way: an array with
+  dimensions *m* × *n* × *k* has *m* × *k* generalized rows, each of *k*
+  elements (it's like *m* times a matrix of dimension *n* × *k*).
+
+See the [full release notes for details][rn].
+
+[gemv]: https://github.com/bluss/rust-ndarray/blob/1006a7d20fcb7277620cf8dd6de1560172833f95/src/linalg/impl_linalg.rs#L565-L579
+[rn]: https://github.com/bluss/rust-ndarray#recent-changes-ndarray
