@@ -18,38 +18,39 @@ types.
 
 [1]: https://github.com/bluss/rust-ndarray
 
-The new version of ndarray is 0.9.0 and it has a very exciting feature: support
-for parallelization of `Zip`!
+The new version of ndarray has an exciting feature: support for parallelization
+of `Zip`!
 
-`Zip` is our implementation of *lock-step function application across
-several producers*; just like `.zip()` is used to iterate two iterators in
+`Zip` is our implementation of *lock-step function application* across
+several *producers*; just like `.zip()` is used to iterate two iterators in
 lock step, we use the `Zip` object to do a similar operation across several
 producers. Not just two, but up to six producers [^1] and not just arrays,
 but *producers*. For example, if we cut a 2D array into 2 × 2 chunks,
 the chunk producer is a two dimensional producer in itself, each item a chunk!
 
+[^1]: Limited only by our willingness to use macros to implement it for more tuple arities
+
 ## Why Producers?
 
-We use the trait `NdProducer` for `Zip`, and not usual iterators. We have two
-goals: efficient loops and [rayon][rayon]-style parallelization. Efficient
+We use the trait `NdProducer` for `Zip`, and not the usual `Iterator`. We have
+two goals: efficient loops and [rayon][rayon]-style parallelization. Efficient
 loops require that we use memory layout information from the producers and
 adapt the loop the best we can. rayon-style parallelization requires the `Zip`
 object can be split, and we again use the memory layout information to split
-them along the axis that has the biggest stride (biggest separation in memory).
+them along the axis that gives the biggest separation in memory location.
 
-Iterators keep the state of iteration, and splitting the iterators is tricky
-when we have an iteration state different from its starting state. So we use
-producers that are often iterable (convertible to iterators) but not iterators
-themselves.
+An iterator keeps the current state of iteration, and splitting it is tricky
+when we have changed it from its starting state. So we use producers that are
+often iterable (convertible to iterators) but not iterators themselves.
 
 [rayon]: http://smallcultfollowing.com/babysteps/blog/2017/04/06/rayon-0-7-released/
 
 ## Why Zip?
 
-Imagine we want to do a ternary operation, efficiently and without allocating
-intermediate results. Even computing *A* + *B*, storing the result in *C* is
-a ternary operation if none of *A* or *B* are consumed and reused for the
-output. A more involved example is: add to *A* the elementwise difference
+Imagine we want to do an operation of many operands efficiently and without
+allocating intermediate results. Even computing *A* + *B*, storing the result
+in *C* is a ternary operation if none of *A* or *B* are consumed and reused for
+the output. A more involved example is: add to *A* the elementwise difference
 of *B* and *C* and the difference of *D* and *E*:
 
 {% highlight rust %}
@@ -73,12 +74,15 @@ Zip::from(&mut A)
     .and(&D)
     .and(&E)
     .apply(|a, &b, &c, &d, &e| {
-    	*a += c - b + d - e;
+    	*a += b - c + d - e;
     });
 {% endhighlight %}
 
-What we have is a general implementation that allows the user to wield the
-power. The loop can be vectorized by the compiler, even if we have many outputs
+What we have in `Zip` is a general implementation that allows the user to wield the
+power. The inputs can be arbitrary arrays or slices of other arrays. As many
+of the inputs as needed can be mutable.
+
+The loop can be vectorized by the compiler, even if we have many outputs
 and we don't have any roadblocks from iterator code generation; the arrays
 are checked to have the same dimensionality and sizes up front and then it goes.
 
@@ -95,7 +99,7 @@ Zip::from(&mut A)
     .and(&E)
     .and(&D)
     .par_apply(|a, &c, &b, &d, &e| {
-    	*a += c - b + d - e;
+    	*a += b - c + d - e;
     });
 {% endhighlight %}
 
@@ -119,11 +123,11 @@ Zip::from(&mut A)
   row and column iterables (and you guessed it — producers).
 
   “gen” is for generalized; the method name `rows()` is already taken for returning
-  the *row count*.
+  the row count.
 
-  We have generalized it to higher dimensions this way: an array with
+  We have generalized it to higher dimensions in this way: an array with
   dimensions *m* × *n* × *k* has *m* × *k* generalized rows, each of *k*
-  elements (it's like *m* times a matrix of dimension *n* × *k*).
+  elements (it's like *m* stacked matrices of dimension *n* × *k*).
 
 See the [full release notes for details][rn].
 
