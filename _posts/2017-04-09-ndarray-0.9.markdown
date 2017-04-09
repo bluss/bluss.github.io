@@ -105,6 +105,8 @@ Zip::from(&mut A)
     });
 {% endhighlight %}
 
+(See at the end if you wonder how `genrows()` works.)
+
 
 ## Other News in Ndarray 0.9
 
