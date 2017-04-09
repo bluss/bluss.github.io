@@ -9,7 +9,7 @@ categories: rust
 *n*-dimensional array for general elements and for numerical computation.
 
 By *n*-dimensional we mean the generalization of the one dimensional vectors
-that have 1 axis, two dimensional matrices (2 axes), etc to arrays with *n*
+that has 1 axis, two dimensional matrices (2 axes), etc to arrays with *n*
 *axes*. In our general use the number of axes of the data is usally small: we
 one, two or three dimensions. The main features of the library is its support
 for slicing, iteration and array view-taking, using the usual (in Rust)
