@@ -90,7 +90,7 @@ The compiler can often vectorize the code in the loop, even if we have many
 inputs or outputs.
 
 We embrace rayon’s idea of easy to add parallelization: import the ndarray
-parallel crate and change `.apply(` to `.par_apply`, and it’s parallelized:
+parallel crate and change `.apply(` to `.par_apply(`, and it’s parallelized:
 
 {% highlight rust %}
 use ndarray::Zip;
