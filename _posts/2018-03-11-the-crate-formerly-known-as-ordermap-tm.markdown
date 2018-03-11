@@ -75,10 +75,10 @@ work on that.
 
 The initial name for the crate was `orderedmap`. For a short while. That was
 a bit misleading, so let's be clever: I used the name `ordermap` (It has
-*an* order.., it has useful features around order).
+*an* order.., it has useful features related to order..).
 
 Clever doesn't help us in the long run: we want to deliver the right
-expectations. We have no perfect name, but we wanted to avoid over promising
+expectations. We have no perfect name, but we wanted to avoid overpromising
 on order. It has a lot of useful order properties (stable, deterministic, sortable,
 indexable), but it has other properties too. One of the features is that it
 has just the same interface as a regular hash map, so you can just drop it in.
