@@ -29,7 +29,7 @@ requires Rust 1.18 as of this writing.
 It started as a fun experiment, after reading about Python 3.6's dict implementation;
 they made their hash tables preserve full insertion order by default, using
 a simple structure. (They released Python 3.6 with that improvement but with no
-comittment to the insertion order as a guaranteed feature).
+committment to the insertion order as a guaranteed feature).
 
 Indexmap turned out to be something a bit different than its inspiration. Its
 compactly indexed space was very useful for many applications, and its
