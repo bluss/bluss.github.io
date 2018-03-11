@@ -86,10 +86,24 @@ It now has index in the name, to suggest some of the useful indexing features,
 and it has “map” in the name to suggest that it's a hash table, or at least
 something like it.
 
+## Is Indexmap a Better HashMap?
+
+Maybe. The Rust standard `HashMap` has a well tested implementation, it is very
+fast (it is often faster than `IndexMap` for several basic operations, like
+lookup, depending on size and element type), while `IndexMap` has unique
+features and can be many times faster for some operations, including all
+iteration. There is a longer discussion of this in the [Readme file][perf].
+
+If you want its special features of `IndexMap`, or its strongest performance
+points fits your workload, it might be the best hash table implementation.
+
+It has the same interface as the standard `HashMap`, so it's easy to drop in and
+test it. indexmap is now version 1.0, which means that it is feasible to have
+it as a public dependency.
 
 ## Other Notes
 
 + See the [changelog][ch] for more information
 
 [ch]: https://github.com/bluss/indexmap#recent-changes
-
+[perf]: https://github.com/bluss/indexmap#performance
