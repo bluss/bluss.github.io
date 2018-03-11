@@ -15,9 +15,8 @@ the Rust standard library. The extra features it implements are foremost:
 - Limited element order stability. Stable over insertion, extension,
   de/serialization, through `retain` and many other operations.
 - Look up elements by either their key or their numerical index
-- Sort the key-value pairs in a map or the elements in a set by arbitrary
-  comparison function. The key lookup is preserved of course, while changing
-  the order of the elements in the data structure.
+- Sort the key-value pairs in place! The sort preserves the key lookup of
+  course, while the iteration and indexing order is updated.
 
 The crate is implemented in entirely safe Rust code and the 1.0 version
 requires Rust 1.18 as of this writing.
