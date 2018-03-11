@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "indexmap 1.0"
-date:   2018-03-11 13:20:00 +0100
+date:   2018-03-11 13:45:00 +0100
 categories: rust
 ---
 
