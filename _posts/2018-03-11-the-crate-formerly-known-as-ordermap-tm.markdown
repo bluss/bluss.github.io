@@ -88,11 +88,12 @@ something like it.
 
 ## Is Indexmap a Better HashMap?
 
-Maybe. The Rust standard `HashMap` has a well tested implementation, it is very
-fast (it is often faster than `IndexMap` for several basic operations, like
-lookup, depending on size and element type), while `IndexMap` has unique
-features and can be many times faster for some operations, including all
-iteration. There is a longer discussion of this in the [Readme file][perf].
+For your application? Maybe. The Rust standard `HashMap` has a well tested
+implementation, it is very fast (it is often faster than `IndexMap` for basic
+operations, like lookup, depending on size and element type), while
+`IndexMap` has unique features and can be many times faster for some
+operations, especially iteration. There is a longer discussion of this in
+the [Readme file][perf].
 
 If you want its special features of `IndexMap`, or its strongest performance
 points fits your workload, it might be the best hash table implementation.
