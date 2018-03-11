@@ -55,7 +55,8 @@ out of which 17 are not by me).
 
 Thanks to [all contributors][contrib] of indexmap which are:
 
-bluss, cuviper, ignatenkobrain, xfix, overvenus, stevej, pczarn, lucab
+bluss, cuviper, ignatenkobrain, xfix, overvenus, stevej, pczarn, lucab, hcpl,
+Techcable, Binero, weiznich
 
 [bluss]: https://github.com/bluss
 [cuviper]: https://github.com/cuviper/
