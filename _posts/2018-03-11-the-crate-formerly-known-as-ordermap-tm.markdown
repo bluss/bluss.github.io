@@ -104,7 +104,9 @@ it as a public dependency.
 
 ## Other Notes
 
++ See [docs.rs docs for indexmap][docsrs]
 + See the [changelog][ch] for more information
 
 [ch]: https://github.com/bluss/indexmap#recent-changes
 [perf]: https://github.com/bluss/indexmap#performance
+[docsrs]: https://docs.rs/indexmap/1/
