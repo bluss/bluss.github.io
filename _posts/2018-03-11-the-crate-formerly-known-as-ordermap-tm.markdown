@@ -63,8 +63,8 @@ bluss, cuviper, ignatenkobrain, xfix, overvenus, stevej, pczarn, lucab
 
 (Thank  you @pczarn who implemented a good performance improvement for insertions!)
 
-On the way, there has been contributions that have not yet been merged (there
-might be some awesome features to come).  There has also been other proposals
+On the way, there have been contributions that have not yet been merged (there
+might be some awesome features to come).  There have also been other proposals
 where we decided they are not in scope for indexmap: a hash table that is
 similar but that preserves insertion order acorss removal. It's a useful
 project, but it will not be this one. I have encouraged a fork or restart to
