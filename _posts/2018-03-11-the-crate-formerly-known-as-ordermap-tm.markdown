@@ -25,12 +25,6 @@ requires Rust 1.18 as of this writing.
 [1]: https://docs.rs/indexmap/1/
 
 
-## Example Usage 
-
-{% highlight rust %}
-{% endhighlight %}
-
-
 ## Why the Data Structure Indexmap?
 
 It started as a fun experiment, after reading about Python 3.6's dict implementation;
