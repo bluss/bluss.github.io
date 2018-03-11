@@ -67,9 +67,9 @@ Techcable, Binero, weiznich
 On the way, there have been contributions that have not yet been merged (there
 might be some awesome features to come).  There have also been other proposals
 where we decided they are not in scope for indexmap: a hash table that is
-similar but that preserves insertion order acorss removal. It's a useful
-project, but it will not be this one. I have encouraged a fork or restart to
-work on that.
+similar but that preserves insertion order across the remove method. It's
+a useful project, but it will not be this one. I have encouraged a fork or
+restart to work on that.
 
 ## Why the Name Indexmap?
 
