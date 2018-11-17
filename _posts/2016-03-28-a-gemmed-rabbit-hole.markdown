@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "A gemmed rabbit hole"
+title:  "gemm: a rabbit hole"
 date:   2016-03-28 23:00:00 +0200
 categories: rust
 ---
