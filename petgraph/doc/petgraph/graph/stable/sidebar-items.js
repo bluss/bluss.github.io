@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Neighbors","Iterator over the neighbors of a node."],["NodeIndices","Iterator over the node indices of a graph."],["StableGraph","`StableGraph<N, E, Ty, Ix>` is a graph datastructure using an adjacency list representation."],["WalkNeighbors","A “walker” object that can be used to step through the edge list of a node."]]});
